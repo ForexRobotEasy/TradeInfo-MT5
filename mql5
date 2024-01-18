@@ -1,0 +1,127 @@
+
+//+------------------------------------------------------------------+
+//|                                        TradeInfo MT5                                            |
+//|                                      forexroboteasy.com                                         |
+//|                                 Developed by Forex Robot Easy Team                               |
+//+------------------------------------------------------------------+
+#property strict
+
+//+------------------------------------------------------------------+
+//|                                                   OnInit function                                                    |
+//|                                          Called when the program is initialized                                          |
+//+------------------------------------------------------------------+
+void OnInit()
+{
+   // Display current account information
+   DisplayCurrentAccountInfo();
+   
+   // Record and display information about open positions
+   RecordOpenPositions();
+   
+   // Provide information on spread and drawdown
+   DisplaySpreadAndDrawdown();
+   
+   // Display planned profits and expected losses
+   DisplayPlannedProfitsAndExpectedLosses();
+   
+   // Calculate and display today's and yesterday's range
+   DisplayRange();
+}
+
+//+------------------------------------------------------------------+
+//|                                     Display current account information                                    |
+//|                               Retrieves and displays account balance, equity, and free margin                               |
+//+------------------------------------------------------------------+
+void DisplayCurrentAccountInfo()
+{
+   double balance = AccountInfoDouble(ACCOUNT_BALANCE);
+   double equity = AccountInfoDouble(ACCOUNT_EQUITY);
+   double freeMargin = AccountInfoDouble(ACCOUNT_FREEMARGIN);
+   
+   Print('Account Balance: ', balance);
+   Print('Account Equity: ', equity);
+   Print('Free Margin: ', freeMargin);
+}
+
+//+------------------------------------------------------------------+
+//|                                      Record and display open position information                                      |
+//|                          Retrieves and displays the number of open positions, volume, and profit                           |
+//+------------------------------------------------------------------+
+void RecordOpenPositions()
+{
+   int totalPositions = PositionsTotal();
+   
+   for (int i = 0; i < totalPositions; i++)
+   {
+      if (PositionSelectByIndex(i))
+      {
+         double volume = PositionGetDouble(POSITION_VOLUME);
+         double profit = PositionGetDouble(POSITION_PROFIT);
+         
+         Print('Position ', i+1);
+         Print('Volume: ', volume);
+         Print('Profit: ', profit);
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//|                                      Display spread and drawdown                                      |
+//|                           Retrieves and displays the spread and drawdown levels                           |
+//+------------------------------------------------------------------+
+void DisplaySpreadAndDrawdown()
+{
+   double spread = MarketInfo(Symbol(), MODE_SPREAD);
+   double drawdown = AccountInfoDouble(ACCOUNT_MARGIN_LEVEL);
+   
+   Print('Spread: ', spread);
+   Print('Drawdown: ', drawdown);
+}
+
+//+------------------------------------------------------------------+
+//|                                    Display planned profits and expected losses                                    |
+//|                      Calculates and displays the planned profits and expected losses                      |
+//+------------------------------------------------------------------+
+void DisplayPlannedProfitsAndExpectedLosses()
+{
+   // Calculate planned profits and expected losses
+   double plannedProfits = 0.0;
+   double expectedLosses = 0.0;
+   
+   // Display calculated values
+   Print('Planned Profits: ', plannedProfits);
+   Print('Expected Losses: ', expectedLosses);
+}
+
+//+------------------------------------------------------------------+
+//|                                       Display today's and yesterday's range                                        |
+//|                          Calculates and displays today's and yesterday's range levels                          |
+//+------------------------------------------------------------------+
+void DisplayRange()
+{
+   // Calculate today's and yesterday's range
+   double todayRange = High[0] - Low[0];
+   double yesterdayRange = High[1] - Low[1];
+   
+   // Display calculated values
+   Print('Today's Range: ', todayRange);
+   Print('Yesterday's Range: ', yesterdayRange);
+}
+
+//+------------------------------------------------------------------+
+//|                                                   OnDeinit function                                                  |
+//|                                     Called when the program is deinitialized                                      |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Perform any necessary cleanup here
+}
+
+//+------------------------------------------------------------------+
+//|                                                      Start function                                                     |
+//|                                            Entry point of the program execution                                            |
+//+------------------------------------------------------------------+
+void OnStart()
+{
+   // Perform any necessary operations here
+}
